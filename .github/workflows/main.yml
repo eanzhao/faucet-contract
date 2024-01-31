@@ -28,6 +28,7 @@ jobs:
         with:
           private-key: ${{ secrets.PRIVATEKEY }}
           wallet-address: ${{ secrets.WALLET_ADDRESS }}
+          dll-filename: src/bin/Debug/net6.0/Faucet.dll.patched # add this and rename accordingly
     outputs:
       deploymentid: ${{ steps.deploy.outputs.deployment-transaction-id }}
 
