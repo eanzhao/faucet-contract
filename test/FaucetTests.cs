@@ -88,7 +88,7 @@ public class FaucetTests : TestBase
             await userStub.Take.SendAsync(new TakeInput
             {
                 Symbol = "ELF",
-                Amount = 100_00000000
+                Amount = 10_00000000
             });
             // Check user balance.
             var balance = (await adminTokenStub.GetBalance.CallAsync(new GetBalanceInput
@@ -96,7 +96,7 @@ public class FaucetTests : TestBase
                 Owner = SampleAccount.Accounts.Skip(1).First().Address,
                 Symbol = "ELF"
             })).Balance;
-            balance.ShouldBe(100_00000000);
+            balance.ShouldBe(10_00000000);
         }
 
         // User returns.
@@ -144,7 +144,7 @@ public class FaucetTests : TestBase
             var executionResult = await userStub.Take.SendWithExceptionAsync(new TakeInput
             {
                 Symbol = "ELF",
-                Amount = 100_00000000
+                Amount = 10_00000000
             });
             executionResult.TransactionResult.Error.ShouldContain("is off");
         }
