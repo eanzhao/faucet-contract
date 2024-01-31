@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package FaucetContract;
+
+import "Protobuf/base/acs12.proto";
+import "Protobuf/base/faucet_contract.proto";
+
+option csharp_namespace = "AElf.Contracts.Faucet";
+
+service Faucet {
+  option (aelf.csharp_state) = "AElf.Contracts.Faucet.FaucetState";
+
+  option (aelf.base) = "Protobuf/base/acs12.proto";
+  option (aelf.base) = "Protobuf/base/faucet_contract.proto";
+}

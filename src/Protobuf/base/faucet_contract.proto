@@ -1,0 +1,168 @@
+syntax = "proto3";
+
+package Faucet;
+
+import "aelf/core.proto";
+import "aelf/options.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+
+service Faucet {
+  rpc Initialize (InitializeInput) returns (google.protobuf.Empty) {
+  }
+
+  // Faucet owner
+  rpc NewFaucet (NewFaucetInput) returns (google.protobuf.Empty) {
+  }
+  rpc Pour (PourInput) returns (google.protobuf.Empty) {
+  }
+  rpc TurnOn (TurnInput) returns (google.protobuf.Empty) {
+  }
+  rpc TurnOff (TurnInput) returns (google.protobuf.Empty) {
+  }
+  rpc SetLimit (SetLimitInput) returns (google.protobuf.Empty) {
+  }
+  rpc Ban (BanInput) returns (google.protobuf.Empty) {
+  }
+  rpc Send (SendInput) returns (google.protobuf.Empty) {
+  }
+
+  // Others.
+  rpc Take (TakeInput) returns (google.protobuf.Empty) {
+  }
+  rpc Return (ReturnInput) returns (google.protobuf.Empty) {
+  }
+
+  rpc GetOwner (google.protobuf.StringValue) returns (aelf.Address) {
+    option (aelf.is_view) = true;
+  }
+  rpc GetFaucetStatus (google.protobuf.StringValue) returns (FaucetStatus) {
+    option (aelf.is_view) = true;
+  }
+  rpc GetLimitAmount (google.protobuf.StringValue) returns (google.protobuf.Int64Value) {
+    option (aelf.is_view) = true;
+  }
+  rpc GetIntervalMinutes (google.protobuf.StringValue) returns (google.protobuf.Int64Value) {
+    option (aelf.is_view) = true;
+  }
+  rpc IsBannedByOwner (IsBannedByOwnerInput) returns (google.protobuf.BoolValue) {
+    option (aelf.is_view) = true;
+  }
+}
+
+message InitializeInput {
+  aelf.Address admin = 1;
+  int64 amount_limit = 2;
+  int64 interval_minutes = 3;
+}
+
+message NewFaucetInput {
+  string symbol = 1;
+  aelf.Address owner = 3;
+  int64 amount_limit = 4;
+  int64 interval_minutes = 5;
+}
+
+message PourInput {
+  string symbol = 1;
+  int64 amount = 2;
+}
+
+message TurnInput {
+  string symbol = 1;
+}
+
+message SetLimitInput {
+  string symbol = 1;
+  int64 amount_limit = 2;
+  int64 interval_minutes = 3;
+}
+
+message BanInput {
+  string symbol = 1;
+  aelf.Address target = 2;
+  bool is_ban = 3;
+}
+
+message SendInput {
+  aelf.Address target = 1;
+  string symbol = 2;
+  int64 amount = 3;
+}
+
+message TakeInput {
+  string symbol = 1;
+  int64 amount = 2;
+}
+
+message ReturnInput {
+  string symbol = 1;
+  int64 amount = 2;
+}
+
+message FaucetStatus {
+  bool is_on = 1;
+  google.protobuf.Timestamp turn_at = 2;
+}
+
+message IsBannedByOwnerInput {
+  aelf.Address target = 1;
+  string symbol = 2;
+}
+
+// Events
+
+message FaucetCreated {
+  option (aelf.is_event) = true;
+  string symbol = 1;
+  int64 amount = 2;
+  aelf.Address owner = 3;
+}
+
+message Poured {
+  option (aelf.is_event) = true;
+  string symbol = 1;
+  int64 amount = 2;
+}
+
+message FaucetTurned {
+  option (aelf.is_event) = true;
+  bool is_turned_on = 1;
+  string symbol = 2;
+}
+
+message LimitChanged {
+  option (aelf.is_event) = true;
+  string symbol = 1;
+  int64 limit_amount = 2;
+  int64 interval_minutes = 3;
+}
+
+message Taken {
+  option (aelf.is_event) = true;
+  aelf.Address user = 1;
+  string symbol = 2;
+  int64 amount = 3;
+}
+
+message Returned {
+  option (aelf.is_event) = true;
+  aelf.Address user = 1;
+  string symbol = 2;
+  int64 amount = 3;
+}
+
+message Banned {
+  option (aelf.is_event) = true;
+  aelf.Address target = 1;
+  string symbol = 2;
+  bool is_banned = 3;
+}
+
+message Sent {
+  option (aelf.is_event) = true;
+  aelf.Address target = 1;
+  string symbol = 2;
+  int64 amount = 3;
+}
